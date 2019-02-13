@@ -1,0 +1,48 @@
+/* ----- template code commented out BEGIN 
+
+	try{
+	
+        int frameSize 	= ais.getFormat().getFrameSize(); 
+	    int frameLength 	= (int) ais.getFrameLength();
+
+	    // reset the AudioInputStream (mark goes to the start) 
+	    ?? 
+
+	    // create a byte array of the right size
+    	    // recall the lecture OHP slides .. 
+	    ?? 
+
+	    // fill the byte array with the data of the AudioInputStream
+	    ?? 
+
+	    // Create an integer array, data, of the right size
+	    // only reason to do this is enabling type float/double mixing calculations  
+	    ?? 
+	    
+	     data = new int[a.length/2];
+	     
+	    // fill the integer array by combining two bytes of the
+	    // byte array a into one integer - see lectures
+	    ?? 
+
+	    // scale data linearly by a factor of 3/4  
+	    // **** NB this is the only part of scaleToZero that is not already part of
+	    // echo effect !!!! ****
+	    ?? 
+
+	    // convert the integer array to a byte array 
+	    for (int i=0; i<data.length; ++i) {
+		a[2*i] 	  = (byte)  ((data[i] >> 8) & 0xff);
+		a[2*i+1]  = (byte)         (data[i] & 0xff);
+	    }
+
+
+	} catch(Exception e){
+	    System.out.println("Something went wrong");
+	    e.printStackTrace();
+	}
+
+ ----- template code commented out END */
+
+	// create a new AudioInputStream out of the the byteArray
+	// and return it.
