@@ -19,8 +19,21 @@ public class AudioManipulation {
 
 /**** echo *****************************************************************/
 
+	/**
+	 * 
+	 * @param ais - AudioInputStream
+	 * @param timeDelay - how long off a delay before playing echo
+	 * @param fading0 - by how much the copy0 fade
+	 * @param fading1 - by how much copy1 fades
+	 * @return void - no return
+	 * @frameRate
+	 * frameRate = sample rate
+	 * @frameSize = storage for the signal - needs to be the right size
+	 * 
+	 */
     public static AudioInputStream echo(AudioInputStream ais, int timeDelay, double fading0, double fading1) {
 
+    
 	byte[] a = null;
 	int[] data, ch0, ch1;
 	int max;
@@ -84,7 +97,7 @@ public class AudioManipulation {
 	    // Adding a faded copy of the early signal to the later signal
 	    // THIS IS THE ECHO !!
 	    for (int i=frameDelay; i<ch0.length; ++i) {
-		ch0[i] += (int) (ch0[i-frameDelay]*fading0);
+		ch0[i] += (int) (ch0[i-frameDelay]*fading0); //adds a few a signal frame before stored at ch0[i-frameDelay] to a later frame *fading0
 		ch1[i] += (int) (ch1[i-frameDelay]*fading1);
 	    }
 
@@ -148,11 +161,14 @@ public class AudioManipulation {
 		//fill the byte array with data of the AudioInputStream
 		ais.read(a);
 		
-		//Create integer arrat, data , of the right size
+		//Create integer array, data , of the right size
 		// only reason to do this is enabling type float/double mixing calculations
-		
 		data = new int [a.length/2];
 		
+		//convert the integer arrat tp a byte array
+		for (int i = 0; i < data.length;++i) {
+//			a[i]
+		}
 		
 	} catch (IOException e) {
 		e.printStackTrace();
