@@ -24,7 +24,20 @@
 	    // fill the integer array by combining two bytes of the
 	    // byte array a into one integer - see lectures
 	    ?? 
-
+	    
+	    for (int i=0; i<data.length; ++i) {
+		/* First byte is HB (most significant digits) - coerce to 32-bit int */
+		// HB =def sign_extend(a[2*i]) from 8 bit byte to 32 bit int 
+		int HB = (int) a[2*i];
+		/* Second byte is LB (least significant digits) - coerce to 32-bit int */
+		// LB =def sign_extend(a[2*i+1]) from 8 bit byte to 32 bit int 
+		int LB = (int) a[2*i+1];
+		// note that data[i] =def sign_extend(HB.LB) 
+		// | : Bool^32 x Bool^32 -----> Bool^32 where Bool = {0, 1} 
+		data[i] =  HB << 8 | (LB & 0xff); 
+ 	    }
+	    
+	    
 	    // scale data linearly by a factor of 3/4  
 	    // **** NB this is the only part of scaleToZero that is not already part of
 	    // echo effect !!!! ****

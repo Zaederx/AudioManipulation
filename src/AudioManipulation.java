@@ -165,11 +165,34 @@ public class AudioManipulation {
 		// only reason to do this is enabling type float/double mixing calculations
 		data = new int [a.length/2];
 		
-		//convert the integer arrat tp a byte array
+		//fill the integer array by combining two bytes of the
+		// byte array a into one integer - see lectures
 		for (int i = 0; i < data.length;++i) {
-//			a[i]
+			int HB = (int) a[2*i];
+			int LB = (int) a[2*1+1];
+			data[i] = HB << 8 | (LB & 0xff);
 		}
 		
+		// scale data linearly by a factor of 3/4  
+	    // **** NB this is the only part of scaleToZero that is not already part of
+	    // echo effect !!!! ****
+	   int [] data2 = new int [data.length];
+	   for (int i = 0; i < data.length; ++i) {
+		   data2 [i] = (int) (data[i]* 0.75);
+		   }
+	    
+	   // convert the integer array to a byte array 
+//	   ?? for (int i=0; i<data.length; ++i) {
+//		a[2*i] 	  = (byte)  ((data[i] >> 8) & 0xff);
+//		a[2*i+1]  = (byte)         (data[i] & 0xff);
+//	    }
+	   
+	   
+	   for (int i = 0; i < data.length; i++) {
+		   a[2*i] = (byte) ((data2[i] >> 8) & 0xff);
+		   a[2*i+1] = (byte) (data2[i]& 0xff);
+	   }
+	   
 	} catch (IOException e) {
 		e.printStackTrace();
 	}
@@ -423,7 +446,7 @@ public class AudioManipulation {
 
 	    // fill up b using och0 and och1 
 	              for (int i=0; i < b.length; i += 4) {
-		      	  b[i]   = och0[i/2];
+//		      	  b[i]   = och0[i/2];
 			  // ??
 		      }
 
