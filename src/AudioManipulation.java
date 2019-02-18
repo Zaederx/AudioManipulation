@@ -177,8 +177,10 @@ public class AudioManipulation {
 	    // **** NB this is the only part of scaleToZero that is not already part of
 	    // echo effect !!!! ****
 	   int [] data2 = new int [data.length];
+	   double scaleFactor = 0.75;
 	   for (int i = 0; i < data.length; ++i) {
-		   data2 [i] = (int) (data[i]* 0.75);
+		   data2 [i] = (int) (data[i]* scaleFactor);
+//		   scaleFactor = scaleFactor*scaleFactor;
 		   }
 	    
 	   // convert the integer array to a byte array 
