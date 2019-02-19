@@ -1,4 +1,6 @@
-/* ----- template code commented out BEGIN 
+/*
+ScaleToZero 
+----- template code commented out BEGIN 
 
 	try{
 	
@@ -37,6 +39,21 @@
 		data[i] =  HB << 8 | (LB & 0xff); 
  	    }
 	    
+	    ****Addiotanl bit - the max part *****
+	    
+	     // get the maximum amplitute
+	    max=0;
+	    for (int i=0; i<data.length; ++i) {
+		max=Math.max(max,Math.abs(data[i]));
+	    }
+	    
+	    if (max > 256*128 - 1) {
+		System.out.println("Sound values are linearly scaled by " + (256.0*128.0-1)/max + 
+             " because maximum amplitude is larger than upper boundary of allowed value range."); 
+		for (int i=0; i<data.length; ++i) {
+		    data[i] = (int) (data[i]*(256.0*128.0-1)/max);
+		}
+            }
 	    
 	    // scale data linearly by a factor of 3/4  
 	    // **** NB this is the only part of scaleToZero that is not already part of
@@ -59,3 +76,44 @@
 
 	// create a new AudioInputStream out of the the byteArray
 	// and return it.
+	
+	
+	**********addNote************
+	
+	/* ----- template code commented out BEGIN 
+
+      try { 
+  
+	// number of frames for the note of noteLengthInMilliseconds
+ 	float frameRate = ais.getFormat().getFrameRate();
+	int noteLengthInFrames = ??
+	int noteLengthInBytes  = ??
+	int noteLengthInInts   = ??
+
+	a   = new byte[noteLengthInBytes];
+	data = new int[noteLengthInInts];
+			
+        // create the note as a data array of integer samples 
+	// each sample value data[i] is calculated using 
+	// the time t at which data[i] is played
+
+	for (int i=0; i<noteLengthInInts; i+=2) {
+	    	// what is the time to play one frame?
+		// BEFORE "frame" data[i]data[i+1] plays, how many frames are there? 
+		// hence compute t in terms of i 
+		// double t = ?? 
+		data[i]   = ?? (one line of code) 
+		?? one more line of code here
+	}
+
+	// copy the int data[i] array into byte a[i] array 			   
+	?? 
+
+	} catch(Exception e){
+	    System.out.println("Something went wrong");
+	    e.printStackTrace();
+	}
+
+ ----- template code commented out END */
+	
+	

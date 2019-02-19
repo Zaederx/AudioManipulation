@@ -173,16 +173,35 @@ public class AudioManipulation {
 			data[i] = HB << 8 | (LB & 0xff);
 		}
 		
+	    ch0 = new int[data.length/2];
+	    ch1 = new int[data.length/2];
+	    for (int i=0; i<data.length/2; i++) {
+		ch0[i] = data[2*i];
+		ch1[i] = data[2*i+1];
+	    }
+		
+	    for (int i=0; i<data.length; i+=2) {
+			data[i]   = ch0[i/2];
+			data[i+1] = ch1[i/2];
+		    }  
+		
 		// scale data linearly by a factor of 3/4  
 	    // **** NB this is the only part of scaleToZero that is not already part of
 	    // echo effect !!!! ****
-	   int [] data2 = new int [data.length];
-	   double scaleFactor = 0.75;
-	   for (int i = 0; i < data.length; ++i) {
-		   data2 [i] = (int) (data[i]* scaleFactor);
+	   
+	  
+	   
+		for (int i = 0; i < data.length ; i +=2) {
+		double scaleFactor = (-3.0/4*1/(data.length-2) * i +1);
+//	   if (max > 256 *128 - 1) {
+		   data [i] = (int) (data[i]*scaleFactor);
+		   data [i+1] = (int) (data[i+1]*scaleFactor);
 //		   scaleFactor = scaleFactor*scaleFactor;
-		   }
-	    
+//		   
+//	   }
+	   
+	   }
+		
 	   // convert the integer array to a byte array 
 //	   ?? for (int i=0; i<data.length; ++i) {
 //		a[2*i] 	  = (byte)  ((data[i] >> 8) & 0xff);
@@ -191,8 +210,8 @@ public class AudioManipulation {
 	   
 	   
 	   for (int i = 0; i < data.length; i++) {
-		   a[2*i] = (byte) ((data2[i] >> 8) & 0xff);
-		   a[2*i+1] = (byte) (data2[i]& 0xff);
+		   a[2*i] = (byte) ((data[i] >> 8) & 0xff);
+		   a[2*i+1] = (byte) (data[i]& 0xff);
 	   }
 	   
 	} catch (IOException e) {
@@ -257,6 +276,9 @@ public class AudioManipulation {
 	int[] data;
 	int frameSize 	= ais.getFormat().getFrameSize(); 
 	int numChannels = ais.getFormat().getChannels(); 
+	
+	
+	
 
 /* ----- template code commented out BEGIN 
 
