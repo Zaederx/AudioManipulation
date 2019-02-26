@@ -282,7 +282,7 @@ public class AudioManipulation {
 	
 	 
 	 int noteLengthInBytes = noteLengthInFrames*frameSize; //usually 4 = bytes per channel - based on notes
-	 int noteLengthInInts = (int) (noteLengthInFrames / numChannels); // size of one channel
+	 int noteLengthInInts = (int) (noteLengthInBytes / numChannels); // size of one channel
 	 
 	 a = new byte[noteLengthInBytes];
 	 data = new int [noteLengthInInts];
