@@ -266,6 +266,7 @@ public class AudioManipulation {
 	int[] data;
 	int frameSize 	= ais.getFormat().getFrameSize(); 
 	int numChannels = ais.getFormat().getChannels(); 
+	long frameLength = ais.getFrameLength();
 	
 	
  try {
@@ -274,8 +275,8 @@ public class AudioManipulation {
 	 byte noteLengthInBytes = (byte) (noteLengthInFrames*4); //4 = bytes per channel
 	 int noteLengthInInts = (int) (noteLengthInBytes*4);
 	 
-	 a = new byte[noteLengthInBytes];
-	 data = new int [noteLengthInInts];
+	 a = new byte[(int) (frameLength*frameSize)+noteLengthInBytes];
+	 data = new int [a.length/2];
 	 
 	 ais.read(a);
 	 // create the note as a data array of integer samples 
@@ -286,16 +287,19 @@ public class AudioManipulation {
 	 double T = 1/frequency;
 	 
 	// BEFORE "frame" data[i]data[i+1] plays, how many frames are there?
-	 for (int i = 0; i < noteLengthInFrames; i+=2) {
+	 for (int i = 0; i < noteLengthInFrames+frameSize; i+=2) {
 		
-		
-		 
+	// hence compute t in terms of i 
+	// double t = ?? 
+		double  t = T*(i+1);
+		data[i] = (int) (t+T);
+		data[i+1] = (int)(t+T);
+	// data[i]   = ?? (one line of code) 
+	// ?? one more line of code here
+
 	 }
-		// hence compute t in terms of i 
-		// double t = ?? 
-//		data[i]   = ?? (one line of code) 
 		
-//		?? one more line of code here
+		
 		 // convert the integer array to a byte array 
 	    for (int i=0; i<data.length; ++i) {
 		a[2*i] 	  = (byte)  ((data[i] >> 8) & 0xff);
