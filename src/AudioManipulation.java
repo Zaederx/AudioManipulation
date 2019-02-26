@@ -275,36 +275,43 @@ public class AudioManipulation {
 	 byte noteLengthInBytes = (byte) (noteLengthInFrames*4); //4 = bytes per channel
 	 int noteLengthInInts = (int) (noteLengthInBytes*4);
 	 
-	 a = new byte[(int) (frameLength*frameSize)+noteLengthInBytes];
+	 a = new byte[(int) noteLengthInBytes];
 	 data = new int [a.length/2];
 	 
 	 ais.read(a);
+	 
 	 // create the note as a data array of integer samples 
 	// each sample value data[i] is calculated using 
 	// the time t at which data[i] is played
 	 
 	// what is the time to play one frame?
 	 double T = 1/frequency;
+	 int k = 64*256;//amplitude - given in exercise brief
+	 // note to self: pure sin wave = k*sin(f*2*pi*t)
 	 
 	// BEFORE "frame" data[i]data[i+1] plays, how many frames are there?
-	 for (int i = 0; i < noteLengthInFrames+frameSize; i+=2) {
+	 for (int i = 0; i < data.length; i+=2) {
 		
 	// hence compute t in terms of i 
 	// double t = ?? 
-		double  t = T*(i+1);
-		data[i] = (int) (t+T);
-		data[i+1] = (int)(t+T);
-	// data[i]   = ?? (one line of code) 
-	// ?? one more line of code here
-
+		double  t = T*(i);
+		double t2 = T*(i+1);
+		
+		// data[i]   = ?? (one line of code) 
+	
+		data[i] = (int) (k*(Math.sin(frequency*2*Math.PI*t)));
+		data[i] = (int) (k*(Math.asin(frequency*2*Math.PI*t2)));
+		
+		
+		// ?? one more line of code here
 	 }
 		
 		
-		 // convert the integer array to a byte array 
-	    for (int i=0; i<data.length; ++i) {
-		a[2*i] 	  = (byte)  ((data[i] >> 8) & 0xff);
-		a[2*i+1]  = (byte)         (data[i] & 0xff);
-	    }
+	 // convert the integer array to a byte array 
+    for (int i=0; i<data.length; ++i) {
+	a[2*i] 	  = (byte)  ((data[i] >> 8) & 0xff);
+	a[2*i+1]  = (byte)         (data[i] & 0xff);
+    }
 	 
 	 
 	 
