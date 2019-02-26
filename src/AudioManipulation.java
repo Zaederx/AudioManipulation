@@ -271,11 +271,16 @@ public class AudioManipulation {
 	
  try {
 	 float frameRate = ais.getFormat().getFrameRate();
-	 int noteLengthInFrames = (int) ((noteLengthInMilliseconds/1000)* frameRate);
-	 byte noteLengthInBytes = (byte) (noteLengthInFrames*4); //4 = bytes per channel
-	 int noteLengthInInts = (int) (noteLengthInBytes*4);
+	 int noteLengthInFrames = (int) ((noteLengthInMilliseconds/1000.0)* frameRate); // don't divide int by int - will lose everything after the dot
+//	 byte noteLengthInBytes = (byte) (noteLengthInFrames*4); //4 = bytes per channel
+//	 int noteLengthInInts = (int) (noteLengthInBytes*4);
 	 
-	 a = new byte[(int) noteLengthInBytes];
+	
+	 
+	 byte noteLengthInBytes = (byte) (noteLengthInFrames*frameSize); //usually 4 = bytes per channel - based on notes
+	 int noteLengthInInts = (int) (noteLengthInFrames*numChannels); // size of one channel
+	 
+	 a = new byte[(int) noteLengthInFrames];
 	 data = new int [a.length/2];
 	 
 	 ais.read(a);
@@ -285,22 +290,26 @@ public class AudioManipulation {
 	// the time t at which data[i] is played
 	 
 	// what is the time to play one frame?
-	 double T = 1/frequency;
+//	 double T = 1/frequency;
 	 int k = 64*256;//amplitude - given in exercise brief
 	 // note to self: pure sin wave = k*sin(f*2*pi*t)
 	 
+	 for (int i = 0; i < data.length;++i) {
+			int HB = (int) a[2*i];
+			int LB = (int) a[2*1+1];
+			data[i] = HB << 8 | (LB & 0xff);
+		}
+	 
 	// BEFORE "frame" data[i]data[i+1] plays, how many frames are there?
 	 for (int i = 0; i < data.length; i+=2) {
-		
 	// hence compute t in terms of i 
 	// double t = ?? 
-		double  t = T*(i);
-		double t2 = T*(i+1);
-		
+		 
+		double  t = i/2 * 1.0/frameRate;
 		// data[i]   = ?? (one line of code) 
 	
 		data[i] = (int) (k*(Math.sin(frequency*2*Math.PI*t)));
-		data[i] = (int) (k*(Math.asin(frequency*2*Math.PI*t2)));
+		data[i+1] = (int) (k*(Math.sin(frequency*2*Math.PI*t)));
 		
 		
 		// ?? one more line of code here
