@@ -173,17 +173,7 @@ public class AudioManipulation {
 			data[i] = HB << 8 | (LB & 0xff);
 		}
 		
-	    ch0 = new int[data.length/2];
-	    ch1 = new int[data.length/2];
-	    for (int i=0; i<data.length/2; i++) {
-		ch0[i] = data[2*i];
-		ch1[i] = data[2*i+1];
-	    }
 		
-	    for (int i=0; i<data.length; i+=2) {
-			data[i]   = ch0[i/2];
-			data[i+1] = ch1[i/2];
-		    }  
 		
 		// scale data linearly by a factor of 3/4  
 	    // **** NB this is the only part of scaleToZero that is not already part of
@@ -292,15 +282,10 @@ public class AudioManipulation {
 	// each sample value data[i] is calculated using 
 	// the time t at which data[i] is played
 	 
+	// what is the time to play one frame?
 	 for (int i = 0; i < noteLengthInFrames; i+=2) {
-		 //my thoughts - get the Time period - 'length' of one note in time
-		 //my thoughts - int time =  noteLengthInFrames/noteLengthInBytes;
-		
-		// what is the time to play one frame?
-		 int time = noteLengthInMilliseconds*1000;
 		// BEFORE "frame" data[i]data[i+1] plays, how many frames are there?
-		int oneFrame = noteLengthInInts/time;
-		int j = i+4;
+		data[]
 		// hence compute t in terms of i 
 		// double t = ?? 
 //		data[i]   = ?? (one line of code) 
