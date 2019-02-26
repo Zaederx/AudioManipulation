@@ -128,7 +128,7 @@ ScaleToZero
 		// specify variable names for both the frequencies in Hz and note lengths in seconds 
 		// eg double C4, D4 etc for frequencies and s, l, ll, lll for lengths 
 		// Hint: Each octave results in a doubling of frequency.
-
+		note to self - The note lengths s, l, ll, lll have values 500, 2000, 2500 and 2800 milliseconds.
 		double C4	= 261.63;
 		double D4	= 293.66; 	
 		double Eb4  	= 311.13;

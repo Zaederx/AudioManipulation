@@ -262,8 +262,8 @@ public class AudioManipulation {
     /**
      * 
      * @param ais - audio input stream
-     * @param frequency
-     * @param noteLengthInMilliseconds
+     * @param frequency - double
+     * @param noteLengthInMilliseconds - int
      * @return
      */
     public static AudioInputStream addNote(AudioInputStream ais,
@@ -440,9 +440,18 @@ public class AudioManipulation {
     				{A6,l},{B6,l},{C7,lll}
     		};
     	
-    		
-//    		addNote(temp,frequency, noteLengthInMilliseconds );
-    	
+    		//adds each note backward to the temp using add note
+    		for (int x = notes.length; x > notes.length; --x) {
+    				double frequency = notes[x][0];
+    	    		int noteLengthInMilliseconds = (int)notes[x][1];
+    	    		addNote(temp, frequency, noteLengthInMilliseconds );
+    		}
+//    			for (int y = 0: y < notes.length: y++) {
+//    		double frequency = notes[x,y];
+//    		double noteLengthInMilliseconds = notes[x,y];
+//    		addNote(temp, notes[x,y], notes[x,y] );
+//    			}
+//    		}
     		
 
 //    		?? etc etc down to
