@@ -115,5 +115,51 @@ ScaleToZero
 	}
 
  ----- template code commented out END */
+ 
+ //  ***********tune************
+ 
+ /* ----- template code commented out BEGIN 
+
+		// create an empty AudioInputStream (of frame size 0)	
+		// call it temp (already declared above) 
+		byte[] c = new byte[1];
+                AudioInputStream temp = new AudioInputStream(new ByteArrayInputStream(c),ais.getFormat(),0);
+
+		// specify variable names for both the frequencies in Hz and note lengths in seconds 
+		// eg double C4, D4 etc for frequencies and s, l, ll, lll for lengths 
+		// Hint: Each octave results in a doubling of frequency.
+
+		double C4	= 261.63;
+		double D4	= 293.66; 	
+		double Eb4  	= 311.13;
+		double E4	= 329.63; 	
+		double F4	= 349.23; 	
+		double G4	= 392.00; 	
+		double A4	= 440.00; 	
+		double B4	= 493.88; 
+		double C5	= 523.25; 	
+		double D5	= 587.33; 
+		double Eb5      = 622.25;
+		?? etc etc down to
+		double C7	= 2093.00; 
+
+		// and the lengths in milliseconds
+        	int s = 500;
+		?? etc 
+
+		// also sprach zarathustra: 2001 A Space Odyssey 
+		// specify the tune
+		double [][] notes = { 
+				     {C4,l}, etc etc ??
+				    };
+		
+		// use addNote to build the tune as an AudioInputStream
+		// starting from the empty AudioInputStream temp (above) and adding each note one by one using A LOOP 
+		?? 
+
+ ----- template code commented out END */
+
+		// append temp, ie the tune, to current ais 
+       		return append(temp,ais);
 	
 	

@@ -46,7 +46,7 @@ public class AudioManipulation {
 	    boolean isBigEndian = ais.getFormat().isBigEndian();
 	    float sampleRate 	= ais.getFormat().getSampleRate();
 	    float frameRate 	= ais.getFormat().getFrameRate();
-        int frameSize 	= ais.getFormat().getFrameSize(); 
+        int frameSize 	= ais.getFormat().getFrameSize(); //2*16/8 = no. of channels * no of bit per channel/8 = width*height/8
 	    int frameLength 	= (int) ais.getFrameLength();
 
             // sampleRate = framerate = 44100.0 Hz (playback rate = sampling rate!) 
@@ -278,43 +278,44 @@ public class AudioManipulation {
 	int numChannels = ais.getFormat().getChannels(); 
 	
 	
-	
-
-/* ----- template code commented out BEGIN 
-
-      try { 
-  
-	// number of frames for the note of noteLengthInMilliseconds
- 	float frameRate = ais.getFormat().getFrameRate();
-	int noteLengthInFrames = ??
-	int noteLengthInBytes  = ??
-	int noteLengthInInts   = ??
-
-	a   = new byte[noteLengthInBytes];
-	data = new int[noteLengthInInts];
-			
-        // create the note as a data array of integer samples 
+ try {
+	 float frameRate = ais.getFormat().getFrameRate();
+	 int noteLengthInFrames = (int) ((noteLengthInMilliseconds/1000)* frameRate);
+	 byte noteLengthInBytes = (byte) (noteLengthInFrames*4); //4 = bytes per channel
+	 int noteLengthInInts = (int) (noteLengthInBytes*4);
+	 
+	 a = new byte[noteLengthInBytes];
+	 data = new int [noteLengthInInts];
+	 
+	 ais.read(a);
+	 // create the note as a data array of integer samples 
 	// each sample value data[i] is calculated using 
 	// the time t at which data[i] is played
-
-	for (int i=0; i<noteLengthInInts; i+=2) {
-	    	// what is the time to play one frame?
-		// BEFORE "frame" data[i]data[i+1] plays, how many frames are there? 
+	 
+	 for (int i = 0; i < noteLengthInFrames; i+=2) {
+		 //my thoughts - get the Time period - 'length' of one note in time
+		 //my thoughts - int time =  noteLengthInFrames/noteLengthInBytes;
+		
+		// what is the time to play one frame?
+		 int time = noteLengthInMilliseconds*1000;
+		// BEFORE "frame" data[i]data[i+1] plays, how many frames are there?
+		int oneFrame = noteLengthInInts/time;
+		int j = i+4;
 		// hence compute t in terms of i 
 		// double t = ?? 
-		data[i]   = ?? (one line of code) 
-		?? one more line of code here
-	}
+//		data[i]   = ?? (one line of code) 
+		
+//		?? one more line of code here
+		
+	 }
+	 
+	 
+ }
+ catch (Exception e) {
+	 e.printStackTrace();
+ }
 
-	// copy the int data[i] array into byte a[i] array 			   
-	?? 
 
-	} catch(Exception e){
-	    System.out.println("Something went wrong");
-	    e.printStackTrace();
-	}
-
- ----- template code commented out END */
 
 	return append(new AudioInputStream(new ByteArrayInputStream(a), 
 				    ais.getFormat(), a.length/ais.getFormat().getFrameSize()),ais);
@@ -363,8 +364,12 @@ public class AudioManipulation {
 
 	public static AudioInputStream tune(AudioInputStream ais){
 
-     		AudioInputStream temp = null;
+     		
+     		byte [] c = new byte[1];
+     		AudioInputStream temp = new AudioInputStream(new ByteArrayInputStream(c), ais.getFormat(),0);
+     		
 
+ 
 /* ----- template code commented out BEGIN 
 
 		// create an empty AudioInputStream (of frame size 0)	
@@ -378,7 +383,7 @@ public class AudioManipulation {
 
 		double C4	= 261.63;
 		double D4	= 293.66; 	
-		double Eb4  	= 311.13;
+		double Eb4  = 311.13;
 		double E4	= 329.63; 	
 		double F4	= 349.23; 	
 		double G4	= 392.00; 	
@@ -386,7 +391,7 @@ public class AudioManipulation {
 		double B4	= 493.88; 
 		double C5	= 523.25; 	
 		double D5	= 587.33; 
-		double Eb5      = 622.25;
+		double Eb5  = 622.25;
 		?? etc etc down to
 		double C7	= 2093.00; 
 
