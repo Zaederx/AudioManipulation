@@ -169,7 +169,7 @@ public class AudioManipulation {
 		// byte array a into one integer - see lectures
 		for (int i = 0; i < data.length;++i) {
 			int HB = (int) a[2*i];
-			int LB = (int) a[2*1+1];
+			int LB = (int) a[2*i+1];
 			data[i] = HB << 8 | (LB & 0xff);
 		}
 		
@@ -278,56 +278,37 @@ public class AudioManipulation {
 	
  try {
 	 float frameRate = ais.getFormat().getFrameRate();
-	 int noteLengthInFrames = (int) ((noteLengthInMilliseconds/1000.0)* frameRate); // don't divide int by int - will lose everything after the dot
-//	 byte noteLengthInBytes = (byte) (noteLengthInFrames*4); //4 = bytes per channel
-//	 int noteLengthInInts = (int) (noteLengthInBytes*4);
-	 
+	 int noteLengthInFrames = (int) (frameRate * (noteLengthInMilliseconds/1000.0)); // don't divide int by int - will lose everything after the dot
 	
 	 
-	 byte noteLengthInBytes = (byte) (noteLengthInFrames*frameSize); //usually 4 = bytes per channel - based on notes
-	 int noteLengthInInts = (int) (noteLengthInFrames*numChannels); // size of one channel
+	 int noteLengthInBytes = noteLengthInFrames*frameSize; //usually 4 = bytes per channel - based on notes
+	 int noteLengthInInts = (int) (noteLengthInFrames / numChannels); // size of one channel
 	 
-	 a = new byte[(int) noteLengthInFrames];
-	 data = new int [a.length/2];
+	 a = new byte[noteLengthInBytes];
+	 data = new int [noteLengthInInts];
 	 
-	 ais.read(a);
+	 //ais.read(a);
 	 
-	 // create the note as a data array of integer samples 
-	// each sample value data[i] is calculated using 
-	// the time t at which data[i] is played
-	 
-	// what is the time to play one frame?
-//	 double T = 1/frequency;
-	 int k = 64*256;//amplitude - given in exercise brief
-	 // note to self: pure sin wave = k*sin(f*2*pi*t)
-	 
-	 for (int i = 0; i < data.length;++i) {
-			int HB = (int) a[2*i];
-			int LB = (int) a[2*1+1];
-			data[i] = HB << 8 | (LB & 0xff);
-		}
+	 double k = 64*256;//amplitude - given in exercise brief
 	 
 	// BEFORE "frame" data[i]data[i+1] plays, how many frames are there?
-	 for (int i = 0; i < data.length; i+=2) {
+	 for (int i = 0; i < noteLengthInInts; i+=2) {
 	// hence compute t in terms of i 
 	// double t = ?? 
-		 
-		double  t = i/2 * 1.0/frameRate; // to keep it as a double, else it ends up flat
+		double  t = (i/2)  * (1.0/frameRate); // to keep it as a double, else it ends up flat
 		// data[i]   = ?? (one line of code) 
 	
-		data[i] = (int) (k*(Math.sin(frequency*2*Math.PI*t)));
-		data[i+1] = (int) (k*(Math.sin(frequency*2*Math.PI*t)));
-		
-		
+		data[i] = (int) (k * Math.sin(frequency * (2 * Math.PI) * t ));
+		data[i+1] = (int) (k * Math.sin(frequency * (2 * Math.PI) * t ));
 		// ?? one more line of code here
 	 }
 		
 		
 	 // convert the integer array to a byte array 
-    for (int i=0; i<data.length; ++i) {
-	a[2*i] 	  = (byte)  ((data[i] >> 8) & 0xff);
-	a[2*i+1]  = (byte)         (data[i] & 0xff);
-    }
+	 for (int i=0; i<data.length; ++i) {
+			a[2*i] 	  = (byte)  ((data[i] >> 8) & 0xff);
+			a[2*i+1]  = (byte)         (data[i] & 0xff);
+		    }
 	 
 	 
 	 
@@ -441,17 +422,13 @@ public class AudioManipulation {
     		};
     	
     		//adds each note backward to the temp using add note
-    		for (int x = notes.length; x > notes.length; --x) {
+    		for (int x = 0; x > notes.length; x++) {
     				double frequency = notes[x][0];
     	    		int noteLengthInMilliseconds = (int)notes[x][1];
-    	    		addNote(temp, frequency, noteLengthInMilliseconds );
+    	    		addNote(temp, frequency, noteLengthInMilliseconds);
     		}
-//    			for (int y = 0: y < notes.length: y++) {
-//    		double frequency = notes[x,y];
-//    		double noteLengthInMilliseconds = notes[x,y];
-//    		addNote(temp, notes[x,y], notes[x,y] );
-//    			}
-//    		}
+
+  		
     		
 
 //    		?? etc etc down to
