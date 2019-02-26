@@ -259,6 +259,13 @@ public class AudioManipulation {
 
 /**** addNote *****************************************************************/
 
+    /**
+     * 
+     * @param ais - audio input stream
+     * @param frequency
+     * @param noteLengthInMilliseconds
+     * @return
+     */
     public static AudioInputStream addNote(AudioInputStream ais,
                                            double frequency,
 					   int noteLengthInMilliseconds) {
@@ -305,7 +312,7 @@ public class AudioManipulation {
 	// hence compute t in terms of i 
 	// double t = ?? 
 		 
-		double  t = i/2 * 1.0/frameRate;
+		double  t = i/2 * 1.0/frameRate; // to keep it as a double, else it ends up flat
 		// data[i]   = ?? (one line of code) 
 	
 		data[i] = (int) (k*(Math.sin(frequency*2*Math.PI*t)));
@@ -381,11 +388,80 @@ public class AudioManipulation {
      		
      		byte [] c = new byte[1];
      		AudioInputStream temp = new AudioInputStream(new ByteArrayInputStream(c), ais.getFormat(),0);
-     		
+     		//notes - some of these will be needed to play the tune
+     		double C4	= 261.63;
+    		double D4	= 293.66; 	
+    		double Eb4  = 311.13;
+    		double E4	= 329.63; 	
+    		double F4	= 349.23; 	
+    		double G4	= 392.00; 	
+    		double A4	= 440.00; 	
+    		double B4	= 493.88; 
+    		double C5	= 523.25; 	
+    		double D5	= 587.33; 
+    		double Eb5  = 622.25;
+    		double F5	= F4*2;
+    		double G5	= G4*2;
+    		//
+    		double E5 	= E4*2;
+    		double A5	= A4*2;
+    		double B5	= B4*2;
+    		
+    		//
+    		double A6	= A5*2;
+    		double B6	= B5*2;
+    		double C6 	= C5*2;
+    		double D6	= D5*2;
+    		double E6	= E5*2;
+    		double E6b	= Eb5*2;
+    		double F6	= F5*2;
+    		double G6	= G5*2;
+    		
+    		double A7 = A6*2;
+    		double B7 = B6*2;
+    		double C7 = 2093.00;
+    		
+    		
+    		int s = 500; // the length in milliseconds for each note
+    		int l = 2000;
+    		int ll = 2500;
+    		int lll = 2800;
+    		
+    		//specfying the tune 
+    		double [][] notes = {
+    				{C4,l}, {G4,l},{C5,l},
+    				{E5,s},{Eb5,lll},
+    				{C4,l}, {G4,l},{C5,l},
+    				{Eb5,s},{E5,lll},
+    				{A5,s},{B5,s},{C6,l},
+    				{A5,s},{B5,s},{C6,l},
+    				{D6,ll},
+    				{E6,s},{F6,s},{G6,l},
+    				{A6,l},{B6,l},{C7,lll}
+    		};
+    	
+    		
+//    		addNote(temp,frequency, noteLengthInMilliseconds );
+    	
+    		
 
+//    		?? etc etc down to
+//    				double C7	= 2093.00;
  
 /* ----- template code commented out BEGIN 
 
+****Extra info - the entire tune is
+*					C4l G4l C5l
+				     E5s Eb5lll 
+				     C4l G4l C5l
+				     Eb5s E5lll 
+				     A5s B5s C6l
+				     A5s B5s C6l
+				     D6ll
+				     E6s F6s G6l 
+				     E6s F6s G6l 
+				     A6l B6l C7lll
+*
 		// create an empty AudioInputStream (of frame size 0)	
 		// call it temp (already declared above) 
 		byte[] c = new byte[1];
@@ -406,9 +482,10 @@ public class AudioManipulation {
 		double C5	= 523.25; 	
 		double D5	= 587.33; 
 		double Eb5  = 622.25;
+		
 		?? etc etc down to
 		double C7	= 2093.00; 
-
+		//There should be silences of length 100 milliseconds between all - except 5th and 6th
 		// and the lengths in milliseconds
         	int s = 500;
 		?? etc 
