@@ -283,16 +283,25 @@ public class AudioManipulation {
 	// the time t at which data[i] is played
 	 
 	// what is the time to play one frame?
+	 double T = 1/frequency;
+	 
+	// BEFORE "frame" data[i]data[i+1] plays, how many frames are there?
 	 for (int i = 0; i < noteLengthInFrames; i+=2) {
-		// BEFORE "frame" data[i]data[i+1] plays, how many frames are there?
-		data[]
+		
+		
+		 
+	 }
 		// hence compute t in terms of i 
 		// double t = ?? 
 //		data[i]   = ?? (one line of code) 
 		
 //		?? one more line of code here
-		
-	 }
+		 // convert the integer array to a byte array 
+	    for (int i=0; i<data.length; ++i) {
+		a[2*i] 	  = (byte)  ((data[i] >> 8) & 0xff);
+		a[2*i+1]  = (byte)         (data[i] & 0xff);
+	    }
+	 
 	 
 	 
  }
