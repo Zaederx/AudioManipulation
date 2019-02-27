@@ -428,9 +428,29 @@ public class AudioManipulation {
     	
     		//adds each note backward to the temp using add note
     		for (int x = notes.length-1; x >= 0; x--) {
+    			// if it is the 5th or sixth note
+    			if (x == 5 || x == 6) { 
     				double frequency = notes[x][0];
     	    		int noteLengthInMilliseconds = (int)notes[x][1];
-    	    		addNote(temp, frequency, noteLengthInMilliseconds);
+    	    		temp = addNote(temp, frequency, noteLengthInMilliseconds);
+    	    		
+    	    		//adds a silence of 500 milliseconds after the 5th and 6th notes
+    				double silence = 0;
+    	    		int silenceLengthInMilliseconds = 500;
+    	    		temp = addNote(temp, silence, silenceLengthInMilliseconds);
+    			}
+    			else {
+    				//adds a note
+    				double frequency = notes[x][0];
+    	    		int noteLengthInMilliseconds = (int)notes[x][1];
+    	    		temp = addNote(temp, frequency , noteLengthInMilliseconds);
+    	    		//adds a silence of 100 milliseconds after the note
+    				double silence = 0;
+    	    		int silenceLengthInMilliseconds = 100;
+    	    		temp = addNote(temp, silence, silenceLengthInMilliseconds);
+    		
+    				
+    			}
     		}
 
   		
