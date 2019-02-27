@@ -366,7 +366,12 @@ public class AudioManipulation {
 
 	public static AudioInputStream tune(AudioInputStream ais){
 
-     		
+     		try {
+				ais.reset();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
      		byte [] c = new byte[1];
      		AudioInputStream temp = new AudioInputStream(new ByteArrayInputStream(c), ais.getFormat(),0);
      		//notes - some of these will be needed to play the tune
@@ -422,7 +427,7 @@ public class AudioManipulation {
     		};
     	
     		//adds each note backward to the temp using add note
-    		for (int x = 0; x > notes.length; x++) {
+    		for (int x = notes.length-1; x >= 0; x--) {
     				double frequency = notes[x][0];
     	    		int noteLengthInMilliseconds = (int)notes[x][1];
     	    		addNote(temp, frequency, noteLengthInMilliseconds);
