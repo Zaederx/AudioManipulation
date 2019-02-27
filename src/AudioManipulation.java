@@ -526,7 +526,7 @@ public class AudioManipulation {
 	int frameSize 	  = ais.getFormat().getFrameSize(); // = 4
     float frameRate   = ais.getFormat().getFrameRate();
      // number of frames played during timeInterval
-	int frameInterval = (int) (frameSize*frameRate);
+	int frameInterval = (int) (timeInterval*frameRate); //i.e. 1/T *t 
 	int inputLengthInBytes = (int) (ais.getFrameLength()*frameSize);
 	int numChannels        = ais.getFormat().getChannels(); // = 2
 
@@ -570,12 +570,15 @@ public class AudioManipulation {
 		    }
 		
 		// explained in CW3 worksheet - bytes per segment Ai (or Bi)
-		 int N = frameInterval*(frameSize/numChannels) ; 
+		
+		//frameSize/numChannels = frameSize per channel
+		//frameSize*frameInterval = bytes per segment
+		 int N = frameInterval*(frameSize/numChannels); 
 		//  length of (either) input array 
 	      int L = ich0.length ;
 	   // length of (either) output array 
 	      int outL = ich1.length; 
-	      int R = outL%N;
+	      int R = outL%N; // given in cwBreif
 		
 	      
 		
