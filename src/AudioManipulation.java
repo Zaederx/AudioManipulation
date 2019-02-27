@@ -426,9 +426,11 @@ public class AudioManipulation {
     				{A6,l},{B6,l},{C7,lll}
     		};
     	
+//    		There should be silences of length 100 milliseconds between all the notes apart from a silence 
+//    		of 500 milliseconds between the 5th and 6th notes and between 10th and 11th notes
     		//adds each note backward to the temp using add note
     		for (int x = notes.length-1; x >= 0; x--) {
-    			// if it is the 5th or sixth note
+    			// if it is the 5th or sixth note - 
     			if (x == 5 || x == 6) { 
     				double frequency = notes[x][0];
     	    		int noteLengthInMilliseconds = (int)notes[x][1];
@@ -524,7 +526,7 @@ public class AudioManipulation {
 	int frameSize 	  = ais.getFormat().getFrameSize(); // = 4
     float frameRate   = ais.getFormat().getFrameRate();
      // number of frames played during timeInterval
-	int frameInterval = frameSize/frameSize;
+	int frameInterval = (int) (frameSize*frameRate);
 	int inputLengthInBytes = (int) (ais.getFrameLength()*frameSize);
 	int numChannels        = ais.getFormat().getChannels(); // = 2
 
@@ -542,50 +544,46 @@ public class AudioManipulation {
 
 	// byte arrays for input channels and output channels
 	byte[] ich0, ich1, och0, och1;
-	byte[] a=null, b=null;
+	byte[] a=null, b=null; // create new Byte arrays for a and b
+	
+	
+	//fill the byte arrays
+	
 
 	try {
-
+		//set size of the arrays
+		a = new byte [inputLengthInBytes];
+		 // fill the byte array a with the data of the AudioInputStream
+		ais.read(a);
+		b = new byte [inputLengthInBytes];
+		 // fill the byte array a with the data of the AudioInputStream
+		ais.read(b);
 		
+		// create new byte arrays for input and output channels of the right size
+		ich0 = new byte[a.length/numChannels];
+		ich1 = new byte[a.length/numChannels];
+	
 		
+		for (int i=0; i<inputLengthInBytes; i++) {
+			ich0[i] = a[i];
+			ich1[i] = a[2*i];
+		    }
 		
-/* ----- template code commented out BEGIN 
+		// explained in CW3 worksheet - bytes per segment Ai (or Bi)
+		 int N = frameInterval*(frameSize/numChannels) ; 
+		//  length of (either) input array 
+	      int L = ich0.length ;
+	   // length of (either) output array 
+	      int outL = ich1.length; 
+	      int R = outL%N;
+		
+	      
+		
 
-		     // create new byte arrays a for input and b for output of the right size
-		     // ??
-		     // fill the byte array a with the data of the AudioInputStream
-		     // ??
-		     // create new byte arrays for input and output channels of the right size 	
-	    	     // eg ich0 = new byte[a.length/numChannels];
-		     // ??
+		    
 
-		     // fill up ich0 and ich1 by splitting a
-		     ?? 
 
-		     // ----------------------------------------------------------------------------
-		     // compute the output channels from the input channels - this is the hard part:
-		   
-		     // int N = ?? ; // explained in CW3 worksheet - bytes per segment Ai (or Bi)
-		     // int L = ?? ; //  length of (either) input array 
-		     // int outL = ?? ; // length of (either) output array 
-          
-		     // index i marks out start positions of double segments Ai O, (or Bi O) each of length 2*N
-		     // index j counts individual bytes in segments Ai, each of length N, going from 0 to N-1
-		     // index k counts individual bytes in the final segment E (or F), of length R = outL % N, going from 0 to R-1
-	  
-		     // MAIN CODE HERE MAKING USE OF i, j, k, N, R 
-		     ?? ..... 
-
-		     // END OF compute the output channels from the input channels 
-		     // ----------------------------------------------------------------------------
-
-		     // finally ... join och0 and och1 into b
-	              for (int i=0; i < b.length; i += 4) {
-		      	b[i]   = och0[i/2];
-			// etc etc 
-		       }
-
- ----- template code commented out END */
+// ----- template code commented out END */
 
 	    // fill up b using och0 and och1 
 	              for (int i=0; i < b.length; i += 4) {

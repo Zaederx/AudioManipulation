@@ -157,9 +157,53 @@ ScaleToZero
 		// starting from the empty AudioInputStream temp (above) and adding each note one by one using A LOOP 
 		?? 
 
+
  ----- template code commented out END */
 
 		// append temp, ie the tune, to current ais 
        		return append(temp,ais);
+       		
+       		
+       		
+       		
+       		
+       		//****************alt channel
+       		/* ----- template code commented out BEGIN 
+
+		     // create new byte arrays a for input and b for output of the right size
+		     // ??
+		     // fill the byte array a with the data of the AudioInputStream
+		     // ??
+		     // create new byte arrays for input and output channels of the right size 	
+	    	     // eg ich0 = new byte[a.length/numChannels];
+		     // ??
+
+		     // fill up ich0 and ich1 by splitting a
+		     ?? 
+
+		     // ----------------------------------------------------------------------------
+		     // compute the output channels from the input channels - this is the hard part:
+		   
+		     // int N = ?? ; // explained in CW3 worksheet - bytes per segment Ai (or Bi)
+		     // int L = ?? ; //  length of (either) input array 
+		     // int outL = ?? ; // length of (either) output array 
+          
+		     // index i marks out start positions of double segments Ai O, (or Bi O) each of length 2*N
+		     // index j counts individual bytes in segments Ai, each of length N, going from 0 to N-1
+		     // index k counts individual bytes in the final segment E (or F), of length R = outL % N, going from 0 to R-1
+	  
+		     // MAIN CODE HERE MAKING USE OF i, j, k, N, R 
+		     ?? ..... 
+
+		     // END OF compute the output channels from the input channels 
+		     // ----------------------------------------------------------------------------
+
+		     // finally ... join och0 and och1 into b
+	              for (int i=0; i < b.length; i += 4) {
+		      	b[i]   = och0[i/2];
+			// etc etc 
+		       }
+
+ ----- template code commented out END */
 	
 	
