@@ -521,6 +521,15 @@ public class AudioManipulation {
 
     public static AudioInputStream altChannels(AudioInputStream ais, double timeInterval){
 
+	int frameSize 	  = ais.getFormat().getFrameSize(); // = 4
+    float frameRate   = ais.getFormat().getFrameRate();
+     // number of frames played during timeInterval
+	int frameInterval = frameSize/frameSize;
+	int inputLengthInBytes = (int) (ais.getFrameLength()*frameSize);
+	int numChannels        = ais.getFormat().getChannels(); // = 2
+
+
+    	
 /* ----- template code commented out BEGIN 
 
 	int frameSize 	  = ais.getFormat().getFrameSize(); // = 4
@@ -537,6 +546,9 @@ public class AudioManipulation {
 
 	try {
 
+		
+		
+		
 /* ----- template code commented out BEGIN 
 
 		     // create new byte arrays a for input and b for output of the right size
